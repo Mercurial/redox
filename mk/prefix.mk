@@ -14,13 +14,21 @@ PREFIX_TARGETS=\
 
 ifeq ($(PREFIX_RUSTC),1)
 
-PREFIX_FREESTANDING_PATH+=:$(PREFIX)/rustc-freestanding-install/bin
+PREFIX_FREESTANDING_PATH+=:$(PREFIX)/rust-freestanding-install/bin
+
+# Building full rustc may not be required
+# PREFIX_PATH+=:$(PREFIX)/rust-install/bin
+PREFIX_PATH+=:$(PREFIX)/rust-freestanding-install/bin
 
 PREFIX_FREESTANDING_TARGETS+=$(PREFIX)/rust-freestanding-install
 
 # Building full rustc may not be required
-# PREFIX_PATH+=:$(PREFIX)/rustc-install/bin
 # PREFIX_TARGETS+=$(PREFIX)/rust-install
+PREFIX_TARGETS+=$(PREFIX)/rust-freestanding-install
+
+# Building full rustc may not be required
+#export RUSTUP_TOOLCHAIN=$(PREFIX)/rust-install
+export RUSTUP_TOOLCHAIN=$(PREFIX)/rust-freestanding-install
 
 endif
 
