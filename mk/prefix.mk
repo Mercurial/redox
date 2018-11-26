@@ -60,7 +60,7 @@ $(PREFIX)/gcc: $(PREFIX)/gcc.tar.bz2
 	mv "$@.partial" "$@"
 	touch "$@"
 
-$(PREFIX)/gcc-freestanding-install: $(PREFIX)/gcc
+$(PREFIX)/gcc-freestanding-install: $(PREFIX)/gcc | $(PREFIX)/binutils-install
 	rm -rf "$<-freestanding-build" "$@"
 	mkdir -p "$<-freestanding-build" "$@"
 	cd "$<-freestanding-build" && \
@@ -72,10 +72,10 @@ $(PREFIX)/gcc-freestanding-install: $(PREFIX)/gcc
 	make install-target-libgcc -j `nproc`
 	touch "$@"
 
-$(PREFIX)/rust-freestanding-install: $(ROOT)/rust | $(PREFIX)/binutils-install $(PREFIX)/gcc-freestanding-install
+$(PREFIX)/rust-freestanding-install: $(ROOT)/rust
 	rm -rf "$(PREFIX)/rust-freestanding-build" "$@"
-	mkdir -p "$(PREFIX)/rust-build" "$@"
-	cd "$(PREFIX)/rust-build" && \
+	mkdir -p "$(PREFIX)/rust-freestanding-build" "$@"
+	cd "$(PREFIX)/rust-freestanding-build" && \
 	"$</configure" --prefix="$@" --disable-docs && \
 	make -j `nproc` && \
 	make install -j `nproc`
