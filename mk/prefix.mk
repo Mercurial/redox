@@ -32,7 +32,7 @@ prefix: $(PREFIX_TARGETS)
 
 $(PREFIX)/binutils.tar.bz2:
 	mkdir -p "$(@D)"
-	wget -O $@.partial "https://gitlab.redox-os.org/redox-os/binutils-gdb/-/archive/master/binutils-gdb-master.tar.bz2"
+	wget -O $@.partial "https://gitlab.redox-os.org/redox-os/binutils-gdb/-/archive/redox/binutils-gdb-redox.tar.bz2"
 	mv $@.partial $@
 
 $(PREFIX)/binutils: $(PREFIX)/binutils.tar.bz2
