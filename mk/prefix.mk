@@ -1,4 +1,4 @@
-PREFIX=$(ROOT)/prefix
+PREFIX=$(ROOT)/prefix/$(TARGET)
 
 PREFIX_BINUTILS_PATH=$(PREFIX)/binutils-install/bin
 PREFIX_FREESTANDING_PATH=$(PREFIX_BINUTILS_PATH):$(PREFIX)/gcc-freestanding-install/bin
@@ -12,10 +12,21 @@ PREFIX_TARGETS=\
 	$(PREFIX)/binutils-install \
 	$(PREFIX)/gcc-install
 
+ifeq ($(PREFIX_RUSTC),1)
+
+PREFIX_FREESTANDING_PATH+=:$(PREFIX)/rustc-freestanding-install/bin
+
+PREFIX_FREESTANDING_TARGETS+=$(PREFIX)/rust-freestanding-install
+
+# Building full rustc may not be required
+# PREFIX_PATH+=:$(PREFIX)/rustc-install/bin
+# PREFIX_TARGETS+=$(PREFIX)/rust-install
+
+endif
+
 prefix-freestanding: $(PREFIX_FREESTANDING_TARGETS)
 
 prefix: $(PREFIX_TARGETS)
-	touch "$@"
 
 $(PREFIX)/binutils.tar.bz2:
 	mkdir -p "$(@D)"
@@ -61,6 +72,15 @@ $(PREFIX)/gcc-freestanding-install: $(PREFIX)/gcc
 	make install-target-libgcc -j `nproc`
 	touch "$@"
 
+$(PREFIX)/rust-freestanding-install: $(ROOT)/rust | $(PREFIX)/binutils-install $(PREFIX)/gcc-freestanding-install
+	rm -rf "$(PREFIX)/rust-freestanding-build" "$@"
+	mkdir -p "$(PREFIX)/rust-build" "$@"
+	cd "$(PREFIX)/rust-build" && \
+	"$</configure" --prefix="$@" --disable-docs && \
+	make -j `nproc` && \
+	make install -j `nproc`
+	touch "$@"
+
 $(PREFIX)/relibc-install: $(ROOT)/relibc | $(PREFIX_FREESTANDING_TARGETS)
 	rm -rf "$@"
 	cd "$<" && \
@@ -82,3 +102,17 @@ $(PREFIX)/gcc-install: $(PREFIX)/gcc | $(PREFIX)/relibc-install
 	make all-target-libstdc++-v3 -j `nproc` && \
 	make install-target-libstdc++-v3 -j `nproc`
 	touch "$@"
+
+# Building full rustc may not be required
+# $(PREFIX)/rust-install: $(ROOT)/rust | $(PREFIX)/gcc-install
+# 	rm -rf "$(PREFIX)/rust-build" "$@"
+# 	mkdir -p "$(PREFIX)/rust-build" "$@"
+# 	cd "$(PREFIX)/rust-build" && \
+# 	export PATH="$(PREFIX_PATH):$$PATH" && \
+# 	export AR_$(subst -,_,$(TARGET))="$(TARGET)-ar" && \
+# 	export CC_$(subst -,_,$(TARGET))="$(TARGET)-gcc" && \
+# 	export CXX_$(subst -,_,$(TARGET))="$(TARGET)-g++" && \
+# 	"$</configure" --target="$(TARGET)" --prefix="$@" --disable-docs && \
+# 	make -j `nproc` && \
+# 	make install -j `nproc`
+# 	touch "$@"
