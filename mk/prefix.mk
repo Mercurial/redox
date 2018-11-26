@@ -1,8 +1,8 @@
 PREFIX=$(ROOT)/prefix/$(TARGET)
 
-PREFIX_BINUTILS_PATH=$(PREFIX)/binutils-install/bin
-PREFIX_FREESTANDING_PATH=$(PREFIX_BINUTILS_PATH):$(PREFIX)/gcc-freestanding-install/bin
-PREFIX_PATH=$(PREFIX_BINUTILS_PATH):$(PREFIX)/gcc-install/bin
+PREFIX_BINUTILS_PATH:=$(PREFIX)/binutils-install/bin
+PREFIX_FREESTANDING_PATH:=$(PREFIX)/gcc-freestanding-install/bin:$(PREFIX_BINUTILS_PATH)
+PREFIX_PATH:=$(PREFIX)/gcc-install/bin:$(PREFIX_BINUTILS_PATH)
 
 PREFIX_FREESTANDING_TARGETS=\
 	$(PREFIX)/binutils-install \
@@ -14,20 +14,14 @@ PREFIX_TARGETS=\
 
 ifeq ($(PREFIX_RUSTC),1)
 
-PREFIX_FREESTANDING_PATH+=:$(PREFIX)/rust-freestanding-install/bin
+PREFIX_FREESTANDING_PATH:=$(PREFIX)/rust-freestanding-install/bin:$(PREFIX_FREESTANDING_PATH)
 
-# Building full rustc may not be required
-# PREFIX_PATH+=:$(PREFIX)/rust-install/bin
-PREFIX_PATH+=:$(PREFIX)/rust-freestanding-install/bin
+PREFIX_PATH:=$(PREFIX)/rust-freestanding-install/bin:$(PREFIX_PATH)
 
 PREFIX_FREESTANDING_TARGETS+=$(PREFIX)/rust-freestanding-install
 
-# Building full rustc may not be required
-# PREFIX_TARGETS+=$(PREFIX)/rust-install
 PREFIX_TARGETS+=$(PREFIX)/rust-freestanding-install
 
-# Building full rustc may not be required
-#export RUSTUP_TOOLCHAIN=$(PREFIX)/rust-install
 export RUSTUP_TOOLCHAIN=$(PREFIX)/rust-freestanding-install
 
 endif
