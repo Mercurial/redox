@@ -45,7 +45,7 @@ $(PREFIX)/binutils-install: $(PREFIX)/binutils
 	rm -rf "$<-build" "$@"
 	mkdir -p "$<-build" "$@"
 	cd "$<-build" && \
-	"$</configure" --target="$(TARGET)" --disable-werror --prefix="$@" && \
+	"$</configure" --target="$(TARGET)" --program-prefix="$(TARGET)-" --prefix="$@" --disable-werror && \
 	make all -j `nproc` && \
 	make install -j `nproc`
 	touch "$@"
@@ -67,7 +67,7 @@ $(PREFIX)/gcc-freestanding-install: $(PREFIX)/gcc | $(PREFIX)/binutils-install
 	mkdir -p "$<-freestanding-build" "$@"
 	cd "$<-freestanding-build" && \
 	export PATH="$(PREFIX_BINUTILS_PATH):$$PATH" && \
-	"$</configure" --target="$(TARGET)" --prefix="$@" --disable-nls --enable-languages=c,c++ --without-headers && \
+	"$</configure" --target="$(TARGET)" --program-prefix="$(TARGET)-" --prefix="$@" --disable-nls --enable-languages=c,c++ --without-headers && \
 	make all-gcc -j `nproc` && \
 	make all-target-libgcc -j `nproc` && \
 	make install-gcc -j `nproc` && \
@@ -96,7 +96,7 @@ $(PREFIX)/gcc-install: $(PREFIX)/gcc | $(PREFIX)/relibc-install
 	mkdir -p "$<-build" "$@"
 	cd "$<-build" && \
 	export PATH="$(PREFIX_FREESTANDING_PATH):$$PATH" && \
-	"$</configure" --target="$(TARGET)" --disable-werror --prefix="$@" --with-sysroot="$(PREFIX)/relibc-install" --disable-nls --enable-languages=c,c++ && \
+	"$</configure" --target="$(TARGET)" --program-prefix="$(TARGET)-" --prefix="$@" --with-sysroot="$(PREFIX)/relibc-install" --disable-nls --disable-werror --enable-languages=c,c++ && \
 	make all-gcc -j `nproc` && \
 	make all-target-libgcc -j `nproc` && \
 	make install-gcc -j `nproc` && \
