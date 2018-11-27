@@ -8,17 +8,13 @@ UNAME := $(shell uname)
 ifeq ($(UNAME),Darwin)
 	ECHO=/bin/echo
 	FUMOUNT=sudo umount
-	export LD=$(ARCH)-elf-ld
 	export NPROC=sysctl -n hw.ncpu
-	export STRIP=$(ARCH)-elf-strip
 	VB_AUDIO=coreaudio
 	VBM="/Applications/VirtualBox.app/Contents/MacOS/VBoxManage"
 else
 	ECHO=echo
 	FUMOUNT=fusermount -u
-	export LD=ld
 	export NPROC=nproc
-	export STRIP=strip
 	VB_AUDIO="pulse"
 	VBM=VBoxManage
 endif
@@ -28,6 +24,24 @@ ROOT=$(PWD)
 export RUST_TARGET_PATH=$(ROOT)/kernel/targets
 export XARGO_HOME=$(ROOT)/build/xargo
 export XARGO_RUST_SRC=$(ROOT)/rust/src
+
+# Cross compiler variables
+export AR=$(TARGET)-ar
+export AS=$(TARGET)-as
+export CC=$(TARGET)-gcc
+export CXX=$(TARGET)-g++
+export LD=$(TARGET)-ld
+export NM=$(TARGET)-nm
+export OBJCOPY=$(TARGET)-objcopy
+export OBJDUMP=$(TARGET)-objdump
+export RANLIB=$(TARGET)-ranlib
+export READELF=$(TARGET)-readelf
+export STRIP=$(TARGET)-strip
+
+# Rust cross compile variables
+export AR_$(subst -,_,$(TARGET))=$(TARGET)-ar
+export CC_$(subst -,_,$(TARGET))=$(TARGET)-gcc
+export CXX_$(subst -,_,$(TARGET))=$(TARGET)-g++
 
 # Kernel variables
 KTARGET=$(ARCH)-unknown-none

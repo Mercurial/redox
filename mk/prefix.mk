@@ -111,9 +111,6 @@ $(PREFIX)/gcc-install: $(PREFIX)/gcc | $(PREFIX)/relibc-install
 # 	mkdir -p "$(PREFIX)/rust-build" "$@"
 # 	cd "$(PREFIX)/rust-build" && \
 # 	export PATH="$(PREFIX_PATH):$$PATH" && \
-# 	export AR_$(subst -,_,$(TARGET))="$(TARGET)-ar" && \
-# 	export CC_$(subst -,_,$(TARGET))="$(TARGET)-gcc" && \
-# 	export CXX_$(subst -,_,$(TARGET))="$(TARGET)-g++" && \
 # 	"$</configure" --target="$(TARGET)" --prefix="$@" --disable-docs && \
 # 	make -j `nproc` && \
 # 	make install -j `nproc`
