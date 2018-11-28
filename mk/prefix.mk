@@ -68,6 +68,7 @@ $(PREFIX)/rust-freestanding-install: $(ROOT)/rust | $(PREFIX)/gcc-freestanding-i
 	"$</configure" --prefix="$@" --disable-docs && \
 	make -j `nproc` && \
 	make install -j `nproc`
+	mkdir -p "$@/lib/rustlib/x86_64-unknown-linux-gnu/bin"
 	touch "$@"
 
 $(PREFIX)/relibc-install: $(ROOT)/relibc | $(PREFIX_FREESTANDING_INSTALL)
