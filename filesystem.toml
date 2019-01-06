@@ -8,11 +8,14 @@ prompt = false
 # Package settings
 [packages]
 #acid = {}
+audiod = {}
 #autoconf = {}
 #automake = {}
 #bash = {}
 #binutils = {}
 ca-certificates = {}
+#cairo = {}
+#cairodemo = {}
 #cargo = {}
 #cleye = {}
 #cmatrix = {}
@@ -23,35 +26,57 @@ coreutils = {}
 #diffutils = {}
 #dosbox = {}
 drivers = {}
+#drivers-041 = {}
 #duktape = {}
+#eduke32 = {}
 #exampled = {}
+#expat = {}
 extrautils = {}
 #fd = {}
 #ffmpeg = {}
 findutils = {}
+#freeciv = {}
 #freedoom = {}
+#freeglut = {}
+#freetype = {}
+#friar = {} # mio patch
 #game-2048 = {}
 #games = {}
 #gawk = {}
 #gcc = {}
+#gears = {}
 #generaluser-gs = {}
 #gigalomania = {}
 #git = {}
+#glutin = {}
 #gnu-binutils = {}
 #gnu-grep = {}
 #gnu-make = {}
+#hematite = {}
 #init = {}
 installer = {}
 ion = {}
 ipcd = {}
+#jansson = {}
 #keyboard-sfx = {}
 #lci = {}
+#libc-bench = {}
+#libiconv = {}
+#libjpeg = {}
+#liborbital = {}
+#libpng = {}
+#libsodium = {}
+#llvm = {}
 logd = {}
 #lua = {}
 #mdp = {}
+#mesa = {}
+#mesa_glu = {}
 #miniserve = {}
 #nasm = {}
 #ncdu = {}
+#ncurses = {}
+#ncursesw = {}
 netdb = {}
 netstack = {}
 netsurf = {}
@@ -59,6 +84,7 @@ netutils = {}
 #newlib = {}
 #newlibtest = {}
 nulld = {}
+#openjazz = {}
 #openssl = {}
 #openttd = {}
 #openttd-opengfx = {}
@@ -67,27 +93,44 @@ orbdata = {}
 orbital = {}
 orbterm = {}
 orbutils = {}
+#osdemo = {}
 #pastel = {}
 #patch = {}
 #periodictable = {}
 #perl = {}
 #pixelcannon = {}
+#pixman = {}
 pkgutils = {}
 #powerline = {}
 #prboom = {}
 ptyd = {}
 #python = {}
 randd = {}
+#readline = {} # ncurses
 redoxfs = {}
 #redox-ssh = {}
 #relibc = {}
+#ripgrep = {}
 #rs-nes = {}
 #rust = {}
 #rust64 = {}
+#rust-cairo = {}
+#rust-cairo-demo = {}
 #rustual-boy = {}
+#scummvm = {}
+#sdl = {}
+#sdl2 = {}
+#sdl_gfx = {}
+#sdl_image = {}
+#sdl_mixer = {}
+#sdl_ttf = {}
 #sed = {}
+#shellstorm = {}
 smith = {}
 #sodium = {}
+#sopwith = {}
+#ssh = {}
+#syobonaction = {}
 #terminfo = {}
 #termplay = {}
 #timidity = {}
@@ -96,8 +139,10 @@ userutils = {}
 uutils = {}
 #vim = {}
 #vttest = {}
+#winit = {}
 #xz = {}
 zerod = {}
+#zlib = {}
 
 # User settings
 [users.root]
@@ -134,6 +179,7 @@ dhcpd -b
 [[files]]
 path = "/etc/init.d/20_orbital"
 data = """
+audiod
 orbital display:3/activate orblogin launcher
 """
 
@@ -213,6 +259,26 @@ Welcome to Redox OS!
 [[files]]
 path = "/usr/bin"
 data = "/bin"
+symlink = true
+
+[[files]]
+path = "/usr/games"
+data = "/games"
+symlink = true
+
+[[files]]
+path = "/usr/include"
+data = "/include"
+symlink = true
+
+[[files]]
+path = "/usr/lib"
+data = "/lib"
+symlink = true
+
+[[files]]
+path = "/usr/share"
+data = "/share"
 symlink = true
 
 [[files]]
