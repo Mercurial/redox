@@ -63,7 +63,7 @@ $(PREFIX)/gcc-freestanding-install: $(PREFIX)/gcc | $(PREFIX)/binutils-install
 		--program-prefix="$(TARGET)-" \
 		--prefix="$@" \
 		--disable-nls \
-		--enable-languages=c,c++ \
+		--enable-languages=c \
 		--without-headers \
 		&& \
 	make all-gcc all-target-libgcc -j `nproc` && \
@@ -104,11 +104,10 @@ $(PREFIX)/gcc-install: $(PREFIX)/gcc | $(PREFIX)/relibc-install
 		--with-sysroot="$(PREFIX)/relibc-install" \
 		--disable-nls \
 		--disable-werror \
-		--enable-languages=c,c++ \
-		--enable-threads=posix \
+		--enable-languages=c \
 		&& \
-	make all-gcc all-target-libgcc all-target-libstdc++-v3 -j `nproc` && \
-	make install-gcc install-target-libgcc install-target-libstdc++-v3 -j `nproc`
+	make all-gcc all-target-libgcc -j `nproc` && \
+	make install-gcc install-target-libgcc -j `nproc`
 	touch "$@"
 
 # Building full rustc may not be required
