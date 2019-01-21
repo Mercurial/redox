@@ -1,3 +1,5 @@
+CODE_MODEL=kernel
+
 build/bootloader:
 	mkdir -p build
 	touch $@

@@ -1,3 +1,5 @@
+CODE_MODEL=large
+
 build/bootloader: bootloader/$(ARCH)/**
 	mkdir -p build
 	nasm -f bin -o $@ -D ARCH_$(ARCH) -ibootloader/$(ARCH)/ bootloader/$(ARCH)/disk.asm
